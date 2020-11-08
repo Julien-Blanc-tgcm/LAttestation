@@ -69,7 +69,7 @@ Dialog {
                 id: defaultPlace
                 width: parent.width
                 label: qsTr("Valeur par défaut pour le « fait à »")
-                placeholderText: "55 rue du faubourg Saint-Honoré, 75008 Paris"
+                placeholderText: "Paris"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 EnterKey.onClicked: accept()

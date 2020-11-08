@@ -11,6 +11,10 @@
 
 #include <poppler/qt5/poppler-qt5.h>
 
+#include <QGuiApplication>
+#include <QQmlContext>
+#include <QQuickView>
+
 int main(int argc, char *argv[])
 {
 	// SailfishApp::main() will display "qml/LAttestation.qml", if you need more
