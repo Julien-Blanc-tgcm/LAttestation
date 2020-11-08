@@ -66,7 +66,7 @@ LIBS += -lpoppler-qt5
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-TRANSLATIONS += translations/LAttestation-fr.ts
+TRANSLATIONS += translations/harbour-lattestation-fr.ts
 
 INSTALLS += resources
 

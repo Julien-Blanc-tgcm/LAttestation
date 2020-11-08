@@ -6,6 +6,9 @@ CoverBackground {
         id: label
         anchors.centerIn: parent
         text: qsTr("Attestation de sortie")
+        wrapMode: Text.Wrap
+        width: parent.width - Theme.horizontalPageMargin
+        horizontalAlignment: Text.AlignHCenter
     }
 
 }
