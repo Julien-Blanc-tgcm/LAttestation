@@ -151,7 +151,7 @@ void Generator::generate(QString firstName,
 	setImagePdf("image://generator/imagePdf?" + creationDate.toString("ss.zzz"));
 }
 
-void Generator::savePdf()
+void Generator::savePdf_()
 {
 	auto base = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 	auto dest = base.at(0);
@@ -165,6 +165,15 @@ void Generator::savePdf()
 	file.open(QIODevice::WriteOnly);
 	qDebug() << "Memory buffer size: " << memoryBuffer_.size();
 	file.write(memoryBuffer_.data());
+}
+
+void Generator::viewPdf()
+{
+	auto base = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+	auto dest = base.at(0);
+	QDir dir(dest);
+	dir.cd("Attestations");
+	QString outName = dir.absolutePath() + "/" + pdfName_;
 	QProcess::startDetached("xdg-open", QStringList{outName});
 }
 
@@ -312,6 +321,7 @@ void Generator::createPdfFile_(int motive,
 	delete writer;
 	pdfName_ = "Attest_" + motiveText_(motive) + "_" + outDate.toString("yyyy-MM-dd hhmm") + ".pdf";
 	qDebug() << pdfName_ << memoryBuffer_.size();
+	savePdf_();
 }
 
 namespace

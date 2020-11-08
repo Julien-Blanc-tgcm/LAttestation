@@ -15,14 +15,20 @@ Page {
         }
         model: attestationmanager.attestations
         delegate : ListItem {
-            height: Theme.itemSizeSmall
+            function remove() {
+                remorseAction("Suppression", function() { attestationmanager.deleteAttestation(modelData);});
+            }
+
             Label {
                 text: modelData
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: Theme.horizontalPageMargin
+                anchors.left: parent.left
             }
             menu: ContextMenu {
                 MenuItem {
                     text: qsTr("Effacer")
-                    onClicked: attestationmanager.deleteAttestation(modelData)
+                    onClicked: remove()
                 }
             }
             onClicked: attestationmanager.openAttestation(modelData);

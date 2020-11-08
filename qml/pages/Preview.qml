@@ -33,7 +33,7 @@ Page {
             }
             IconButton {
                 icon.source: "image://theme/icon-m-file-pdf-light"
-                onClicked: generator.savePdf()
+                onClicked: generator.viewPdf()
             }
         }
     }

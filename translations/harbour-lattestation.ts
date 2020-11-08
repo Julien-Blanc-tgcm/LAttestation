@@ -9,7 +9,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Access.qml" line="24"/>
+        <location filename="../qml/pages/Access.qml" line="30"/>
         <source>Effacer</source>
         <translation type="unfinished"></translation>
     </message>

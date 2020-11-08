@@ -25,7 +25,8 @@ class Generator : public QObject
 	                          QString donePlace,
 	                          int timeShift);
 
-	Q_INVOKABLE void savePdf();
+
+	Q_INVOKABLE void viewPdf();
 
 	Q_PROPERTY(QString image2d READ image2d WRITE setImage2d NOTIFY image2dChanged)
 	Q_PROPERTY(QString imagePdf READ imagePdf WRITE setImagePdf NOTIFY imagePdfChanged)
@@ -52,6 +53,8 @@ class Generator : public QObject
 	QImage bitmapPdf_;
 	QBuffer memoryBuffer_;
 	QString pdfName_;
+
+	void savePdf_();
 
 	void createPdfFile_(int motive,
 	                    QString firstName,
