@@ -47,4 +47,15 @@ Page {
             onClicked: pageStack.push(Qt.resolvedUrl(model.page))
         }
     }
+    Timer {
+        id: timer
+        interval: 1000
+        repeat: false
+        onTriggered: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+    }
+
+    Component.onCompleted: {
+        if(appSettings.firstName.length === 0)
+            timer.start();
+    }
 }

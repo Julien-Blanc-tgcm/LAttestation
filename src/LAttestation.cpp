@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
 	qmlRegisterType<AttestationManager>(qmlPrefix, 1, 0, "AttestationManager");
 
 	view->engine()->addImageProvider("generator", provider);
-	view->setSource(SailfishApp::pathTo("qml/LAttestation.qml"));
 	view->rootContext()->setContextProperty("appSettings", appSettings);
 	view->rootContext()->setContextProperty("generator", generator);
+	view->setSource(SailfishApp::pathTo("qml/LAttestation.qml"));
 	view->show();
 	return app->exec();
 }
