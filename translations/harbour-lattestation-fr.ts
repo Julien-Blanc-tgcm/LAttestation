@@ -120,7 +120,7 @@
     </message>
     <message>
         <location filename="../qml/pages/HomePage.qml" line="32"/>
-        <source>Accéder à une attestation</source>
+        <source>Anciennes attestations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

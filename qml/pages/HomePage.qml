@@ -29,7 +29,7 @@ Page {
                 page: "Generate.qml"
             }
             ListElement {
-                text: qsTr("Accéder à une attestation")
+                text: qsTr("Anciennes attestations")
                 page: "Access.qml"
             }
         }

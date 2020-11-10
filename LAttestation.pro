@@ -70,6 +70,9 @@ TRANSLATIONS += translations/harbour-lattestation-fr.ts
 
 INSTALLS += resources
 
+# This part is to circumvent harbour limitations.
+QMAKE_RPATHDIR = $$DEPLOYMENT_PATH/lib
+
 HEADERS += \
     src/appsettings.h \
     src/attestationmanager.h \
