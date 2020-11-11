@@ -17,7 +17,9 @@ CONFIG += sailfishapp
 SOURCES += src/LAttestation.cpp \
     src/appsettings.cpp \
     src/attestationmanager.cpp \
+    src/generationparameters.cpp \
     src/generator.cpp \
+    src/generatorimageprovider.cpp \
     libqrencode/qrencode.c \
     libqrencode/qrinput.c \
     libqrencode/split.c \
@@ -26,8 +28,7 @@ SOURCES += src/LAttestation.cpp \
     libqrencode/bitstream.c \
     libqrencode/mqrspec.c \
     libqrencode/mmask.c \
-    libqrencode/mask.c \
-    src/generatorimageprovider.cpp
+    libqrencode/mask.c
 
 DISTFILES += qml/LAttestation.qml \
     qml/cover/CoverPage.qml \
@@ -35,8 +36,10 @@ DISTFILES += qml/LAttestation.qml \
     qml/pages/Generate.qml \
     qml/pages/HomePage.qml \
     qml/pages/Preview.qml \
+    qml/pages/QuickLoisirs.qml \
+    qml/pages/QuickShopping.qml \
     qml/pages/SettingsPage.qml \
-    rpm/harbour-lattestation.changes.in \
+    rpm/harbour-lattestation.changes \
     rpm/harbour-lattestation.changes.run.in \
     rpm/harbour-lattestation.spec \
     rpm/harbour-lattestation.yaml \
@@ -77,5 +80,6 @@ HEADERS += \
     src/appsettings.h \
     src/attestationmanager.h \
     src/config.h \
+    src/generationparameters.h \
     src/generator.h \
     src/generatorimageprovider.h

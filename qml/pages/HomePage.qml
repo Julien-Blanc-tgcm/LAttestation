@@ -27,11 +27,24 @@ Page {
             ListElement {
                 text: qsTr("Générer une attestation")
                 page: "Generate.qml"
+                ooops: false
             }
             ListElement {
-                text: qsTr("Anciennes attestations")
+                text: qsTr("Précédentes attestations")
                 page: "Access.qml"
+                ooops: false
             }
+            ListElement {
+                text: qsTr("Oups - Loisirs")
+                page: "QuickLoisirs.qml"
+                ooops: true
+            }
+            ListElement {
+                text: qsTr("Oups - Courses")
+                page: "QuickShopping.qml"
+                ooops: true
+            }
+
         }
         delegate : ListItem {
             height: Theme.itemSizeMedium
@@ -45,6 +58,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
             }
             onClicked: pageStack.push(Qt.resolvedUrl(model.page))
+            visible: !model.ooops || appSettings.ooopsEnabled
         }
     }
     Timer {

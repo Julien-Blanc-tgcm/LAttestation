@@ -11,6 +11,7 @@ AppSettings::AppSettings(QObject *parent) : QObject(parent)
 	birthPlace_ = settings.value("birthPlace", QString{}).toString();
 	address_ = settings.value("address", QString{}).toString();
 	defaultPlace_ = settings.value("defaultPlace", QString{}).toString();
+	ooopsEnabled_ = settings.value("ooopsEnabled", false).toBool();
 }
 
 QString AppSettings::firstName() const
@@ -47,6 +48,7 @@ void AppSettings::save()
 	settings.setValue("birthPlace", birthPlace_);
 	settings.setValue("address", address_);
 	settings.setValue("defaultPlace", defaultPlace_);
+	settings.setValue("ooopsEnabled", ooopsEnabled_);
 }
 
 QString AppSettings::lastName() const
@@ -97,4 +99,22 @@ void AppSettings::setDefaultPlace(QString defaultPlace)
 
 	defaultPlace_ = defaultPlace;
 	emit defaultPlaceChanged(defaultPlace_);
+}
+
+void AppSettings::setLastName(QString lastName)
+{
+	if (lastName_ == lastName)
+		return;
+
+	lastName_ = lastName;
+	emit lastNameChanged(lastName_);
+}
+
+void AppSettings::setOoopsEnabled(bool ooopsEnabled)
+{
+	if (ooopsEnabled_ == ooopsEnabled)
+		return;
+
+	ooopsEnabled_ = ooopsEnabled;
+	emit ooopsEnabledChanged(ooopsEnabled_);
 }

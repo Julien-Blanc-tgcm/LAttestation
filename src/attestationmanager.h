@@ -7,14 +7,14 @@
 class AttestationManager : public QObject
 {
 	Q_OBJECT
-	QVariantList attestations_;
+	QStringList attestations_;
 
   public:
 	explicit AttestationManager(QObject* parent = nullptr);
 
-	Q_PROPERTY(QVariantList attestations READ attestations WRITE setAttestations NOTIFY attestationsChanged)
+	Q_PROPERTY(QStringList attestations READ attestations WRITE setAttestations NOTIFY attestationsChanged)
 
-	QVariantList attestations() const;
+	QStringList attestations() const;
 
 	Q_INVOKABLE void openAttestation(QString attestation);
 
@@ -22,10 +22,10 @@ class AttestationManager : public QObject
 
   signals:
 
-	void attestationsChanged(QVariantList attestations);
+	void attestationsChanged(QStringList attestations);
 
   public slots:
-	void setAttestations(QVariantList attestations);
+	void setAttestations(QStringList attestations);
 
   private:
 	void refresh_();

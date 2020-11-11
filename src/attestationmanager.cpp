@@ -9,7 +9,7 @@ AttestationManager::AttestationManager(QObject *parent) : QObject(parent)
 	refresh_();
 }
 
-QVariantList AttestationManager::attestations() const
+QStringList AttestationManager::attestations() const
 {
 	return attestations_;
 }
@@ -31,10 +31,11 @@ void AttestationManager::deleteAttestation(QString attestation)
 	QDir dir(dest);
 	dir.cd("Attestations");
 	dir.remove(attestation);
-	refresh_();
+	attestations_.removeAll(attestation);
+	emit attestationsChanged(attestations_);
 }
 
-void AttestationManager::setAttestations(QVariantList attestations)
+void AttestationManager::setAttestations(QStringList attestations)
 {
 	if (attestations_ == attestations)
 		return;

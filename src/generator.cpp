@@ -58,20 +58,6 @@ QString formatOutDate_(QDateTime date)
 	return QString{"Sortie: "} + date.toString("dd/MM/yyyy") + " a " + date.toString("hh'h'mm");
 }
 
-QString getQRCodeData_(QString firstName,
-                       QString lastName,
-                       QString birth,
-                       QString address,
-                       QString motive,
-                       QString /*donePlace*/,
-                       QString creationDate,
-                       QString outDate)
-{
-	auto str = creationDate + ";\n" + lastName + ";\n" + firstName + ";\n" + birth + ";\n" + address + ";\n" + outDate +
-	           ";\n" + motive + ";\n";
-	return str;
-}
-
 QString getBirth_(QString birthDate, QString birthPlace)
 {
 	return "Naissance: " + birthDate + " a " + birthPlace;
@@ -97,6 +83,16 @@ QString getAddress_(QString address)
 	return "Adresse: " + address;
 }
 
+QString getQRCodeData_(GenerationParameters const& parameters)
+{
+	auto str = formatCreationDate_(parameters.creationDate()) + ";\n" + getLastName_(parameters.lastName()) + ";\n" +
+	           getFirstName_(parameters.firstName()) + ";\n" +
+	           getBirth_(parameters.birthDate(), parameters.birthPlace()) + ";\n" + getAddress_(parameters.address()) +
+	           ";\n" + formatOutDate_(parameters.outDate()) + ";\n" + getMotive_(motiveText_(parameters.motive())) +
+	           ";\n";
+	return str;
+}
+
 } // namespace
 
 Generator::Generator(QObject *parent) : QObject(parent)
@@ -113,18 +109,28 @@ void Generator::generate(QString firstName,
                          QString donePlace,
                          int timeShift)
 {
-	qDebug() << firstName << lastName << birthDate << birthPlace << address << motiveText_(motive) << donePlace
-	         << timeShift;
+	GenerationParameters parameters;
+	parameters.setFirstName(firstName);
+	parameters.setLastName(lastName);
+	parameters.setBirthDate(birthDate);
+	parameters.setBirthPlace(birthPlace);
+	parameters.setAddress(address);
+	parameters.setMotive(motive);
+	parameters.setDonePlace(donePlace);
 	auto creationDate = getCreationDate_(timeShift);
-	auto outDate = getCreationDate_(timeShift);
-	auto str = getQRCodeData_(getFirstName_(firstName),
-	                          getLastName_(lastName),
-	                          getBirth_(birthDate, birthPlace),
-	                          getAddress_(address),
-	                          getMotive_(motiveText_(motive)),
-	                          donePlace,
-	                          formatCreationDate_(creationDate),
-	                          formatOutDate_(outDate));
+	auto outDate = creationDate;
+	parameters.setCreationDate(creationDate);
+	parameters.setOutDate(outDate);
+	generate(parameters);
+}
+
+void Generator::generate(GenerationParameters parameters)
+{
+	qDebug() << parameters.firstName() << parameters.lastName() << parameters.birthDate() << parameters.birthPlace()
+	         << parameters.address() << motiveText_(parameters.motive()) << parameters.donePlace()
+	         << parameters.creationDate() << parameters.outDate();
+
+	auto str = getQRCodeData_(parameters);
 	qDebug() << str;
 	auto image = QRcode_encodeString(str.toUtf8().constData(), 0, QR_ECLEVEL_M, QR_MODE_8, 1);
 	if (image != nullptr)
@@ -146,9 +152,9 @@ void Generator::generate(QString firstName,
 			}
 		}
 	}
-	createPdfFile_(motive, firstName, lastName, birthDate, birthPlace, address, creationDate, outDate, donePlace);
-	setImage2d("image://generator/image2d?" + creationDate.toString("ss.zzz"));
-	setImagePdf("image://generator/imagePdf?" + creationDate.toString("ss.zzz"));
+	createPdfFile_(parameters);
+	setImage2d("image://generator/image2d?" + parameters.creationDate().toString("ss.zzz"));
+	setImagePdf("image://generator/imagePdf?" + parameters.creationDate().toString("ss.zzz"));
 }
 
 void Generator::savePdf_()
@@ -223,15 +229,7 @@ QPoint convertCoordinate_(int ratio, int x, int y)
 }
 }
 
-void Generator::createPdfFile_(int motive,
-                               QString firstName,
-                               QString lastName,
-                               QString birthDate,
-                               QString birthPlace,
-                               QString address,
-                               QDateTime creationDate,
-                               QDateTime outDate,
-                               QString donePlace)
+void Generator::createPdfFile_(GenerationParameters const& parameters)
 {
 	std::unique_ptr<Poppler::Document> document{
 	    Poppler::Document::load("/usr/share/harbour-lattestation/resources/certificate.pdf")};
@@ -274,17 +272,7 @@ void Generator::createPdfFile_(int motive,
 	}
 	//	pdfPainter->drawText(QPoint(10, 10), "Ça marche ?");
 	// todo : add document customization
-	customizeDocument_(ratio,
-	                   pdfPainter.get(),
-	                   motive,
-	                   firstName,
-	                   lastName,
-	                   birthDate,
-	                   birthPlace,
-	                   address,
-	                   creationDate,
-	                   outDate,
-	                   donePlace);
+	customizeDocument_(ratio, pdfPainter.get(), parameters);
 
 	QRect source(QPoint(0, 0), bitmap2d_.size());
 	pdfPainter->drawImage(
@@ -306,8 +294,7 @@ void Generator::createPdfFile_(int motive,
 		QPainter painter{writer};
 		res = page1->renderToPainter(&painter);
 		qDebug() << "PDF rendering" << res;
-		customizeDocument_(
-		    1, &painter, motive, firstName, lastName, birthDate, birthPlace, address, creationDate, outDate, donePlace);
+		customizeDocument_(1, &painter, parameters);
 		painter.drawImage(
 		    QRect(convertCoordinate_(1, page1->pageSize().width() - 156, 196), QSize(96, 96)),
 		    bitmap2d_,
@@ -319,7 +306,8 @@ void Generator::createPdfFile_(int motive,
 		                  bitmap2d_.rect());
 	}
 	delete writer;
-	pdfName_ = "Attest_" + motiveText_(motive) + "_" + outDate.toString("yyyy-MM-dd hhmm") + ".pdf";
+	pdfName_ =
+	    "Attest_" + motiveText_(parameters.motive()) + "_" + parameters.outDate().toString("yyyy-MM-dd hhmm") + ".pdf";
 	qDebug() << pdfName_ << memoryBuffer_.size();
 	savePdf_();
 }
@@ -339,38 +327,28 @@ int yMotives[] = {
 };
 }
 
-void Generator::customizeDocument_(int ratio,
-                                   QPainter* painter,
-                                   int motive,
-                                   QString firstName,
-                                   QString lastName,
-                                   QString birthDate,
-                                   QString birthPlace,
-                                   QString address,
-                                   QDateTime /*creationDate*/,
-                                   QDateTime outDate,
-                                   QString donePlace)
+void Generator::customizeDocument_(int ratio, QPainter* painter, GenerationParameters const& parameters)
 {
 	painter->save();
 
 	painter->setFont(QFont("helvetica", ratio * 18));
-	painter->drawText(convertCoordinate_(ratio, 78, yMotives[motive]), "x");
+	painter->drawText(convertCoordinate_(ratio, 78, yMotives[parameters.motive()]), "x");
 	painter->setFont(QFont("helvetica", ratio * 11));
 
 	// first name, last name
-	painter->drawText(convertCoordinate_(ratio, 119, 696), firstName + " " + lastName);
+	painter->drawText(convertCoordinate_(ratio, 119, 696), parameters.firstName()+ " " + parameters.lastName());
 
-	painter->drawText(convertCoordinate_(ratio, 119, 674), birthDate);
-	painter->drawText(convertCoordinate_(ratio, 297, 674), birthPlace);
+	painter->drawText(convertCoordinate_(ratio, 119, 674), parameters.birthDate());
+	painter->drawText(convertCoordinate_(ratio, 297, 674), parameters.birthPlace());
 
-	painter->drawText(convertCoordinate_(ratio, 133, 652), address);
+	painter->drawText(convertCoordinate_(ratio, 133, 652), parameters.address());
 
 	// done place
-	painter->drawText(convertCoordinate_(ratio, 105, 177), donePlace);
+	painter->drawText(convertCoordinate_(ratio, 105, 177), parameters.donePlace());
 
 	// out date
-	QString outDateStr = outDate.toString("dd/MM/yyyy");
-	QString outTimeStr = outDate.toString("hh:mm");
+	QString outDateStr = parameters.outDate().toString("dd/MM/yyyy");
+	QString outTimeStr = parameters.outDate().toString("hh:mm");
 	painter->drawText(convertCoordinate_(ratio, 91, 153), outDateStr);
 	painter->drawText(convertCoordinate_(ratio, 264, 153), outTimeStr);
 

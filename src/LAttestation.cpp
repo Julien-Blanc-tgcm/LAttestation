@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 
 	char const* qmlPrefix = "harbour.eu.tgcm.lattestation";
 	qmlRegisterType<AttestationManager>(qmlPrefix, 1, 0, "AttestationManager");
+	qRegisterMetaType<GenerationParameters>();
 
 	view->engine()->addImageProvider("generator", provider);
 	view->rootContext()->setContextProperty("appSettings", appSettings);

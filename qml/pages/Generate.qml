@@ -79,15 +79,14 @@ Page {
 
     function generate()
     {
-        generator.generate(
-                    appSettings.firstName,
-                    appSettings.lastName,
-                    appSettings.birthDate,
-                    appSettings.birthPlace,
-                    appSettings.address,
-                    motive.currentIndex,
-                    doneAt.text,
-                    doneTimeShift.value);
+        generator.generate(appSettings.firstName,
+                           appSettings.lastName,
+                           appSettings.birthDate,
+                           appSettings.birthPlace,
+                           appSettings.address,
+                           motive.currentIndex,
+                           doneAt.text,
+                           doneTimeShift.value);
         pageStack.push(Qt.resolvedUrl("Preview.qml"));
     }
 }

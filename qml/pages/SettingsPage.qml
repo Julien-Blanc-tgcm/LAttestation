@@ -74,6 +74,11 @@ Dialog {
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
                 EnterKey.onClicked: accept()
             }
+            TextSwitch {
+                id: enableOoops
+                width: parent.width
+                text: qsTr("Activer le mode « oups »")
+            }
         }
     }
     onAccepted: {
@@ -83,6 +88,7 @@ Dialog {
         appSettings.birthPlace = birthPlace.text;
         appSettings.address = address.text;
         appSettings.defaultPlace = defaultPlace.text;
+        appSettings.ooopsEnabled = enableOoops.checked
         appSettings.save();
     }
     Component.onCompleted: {
@@ -92,5 +98,6 @@ Dialog {
         birthPlace.text = appSettings.birthPlace
         address.text = appSettings.address
         defaultPlace.text = appSettings.defaultPlace
+        enableOoops.checked = appSettings.ooopsEnabled
     }
 }

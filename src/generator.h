@@ -1,6 +1,8 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 
+#include "generationparameters.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QPainter>
@@ -16,6 +18,7 @@ class Generator : public QObject
   public:
 	explicit Generator(QObject* parent = nullptr);
 
+	Q_INVOKABLE void generate(GenerationParameters parameters);
 	Q_INVOKABLE void generate(QString firstName,
 	                          QString lastName,
 	                          QString birthDate,
@@ -56,27 +59,11 @@ class Generator : public QObject
 
 	void savePdf_();
 
-	void createPdfFile_(int motive,
-	                    QString firstName,
-	                    QString lastName,
-	                    QString birthDate,
-	                    QString birthPlace,
-	                    QString address,
-	                    QDateTime creationDate,
-	                    QDateTime outDate,
-	                    QString donePlace);
+	void createPdfFile_(GenerationParameters const& parameters);
 
 	void customizeDocument_(int ratio,
 	                        QPainter* painter,
-	                        int motive,
-	                        QString firstName,
-	                        QString lastName,
-	                        QString birthDate,
-	                        QString birthPlace,
-	                        QString address,
-	                        QDateTime creationDate,
-	                        QDateTime outDate,
-	                        QString donePlace);
+	                        GenerationParameters const& parameters);
 };
 
 #endif // GENERATOR_H

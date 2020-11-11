@@ -15,8 +15,13 @@ Page {
         }
         model: attestationmanager.attestations
         delegate : ListItem {
+            id: theItem
+            property var att : attestationmanager
             function remove() {
-                remorseAction("Suppression", function() { attestationmanager.deleteAttestation(modelData);});
+                remorseItem.execute(theItem, "Suppression", function() { att.deleteAttestation(modelData);});
+            }
+            RemorseItem {
+                id: remorseItem
             }
 
             Label {

@@ -119,8 +119,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="32"/>
-        <source>Anciennes attestations</source>
+        <location filename="../qml/pages/HomePage.qml" line="33"/>
+        <source>Précédentes attestations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="38"/>
+        <source>Oups - Loisirs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="43"/>
+        <source>Oups - Courses</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -159,6 +169,11 @@
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="71"/>
         <source>Valeur par défaut pour le « fait à »</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="80"/>
+        <source>Activer le mode « oups »</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -19,6 +19,8 @@ class AppSettings : public QObject
 
 	QString lastName_;
 
+	bool ooopsEnabled_ = false;
+
 public:
 	explicit AppSettings(QObject* parent = nullptr);
 
@@ -29,6 +31,8 @@ public:
 	Q_PROPERTY(QString address READ address WRITE setAddress NOTIFY addressChanged)
 
 	Q_PROPERTY(QString defaultPlace READ defaultPlace WRITE setDefaultPlace NOTIFY defaultPlaceChanged)
+
+	Q_PROPERTY(bool ooopsEnabled READ ooopsEnabled WRITE setOoopsEnabled NOTIFY ooopsEnabledChanged)
 
 	QString firstName() const;
 
@@ -44,6 +48,11 @@ public:
 
 	QString lastName() const;
 
+	bool ooopsEnabled() const
+	{
+		return ooopsEnabled_;
+	}
+
 signals:
 
 	void firstNameChanged(QString firstName);
@@ -58,20 +67,16 @@ signals:
 
 	void lastNameChanged(QString lastName);
 
+	void ooopsEnabledChanged(bool ooopsEnabled);
+
 public slots:
 	void setFirstName(QString firstName);
 	void setBirthDate(QString birthDate);
 	void setBirthPlace(QString birthPlace);
 	void setAddress(QString address);
 	void setDefaultPlace(QString defaultPlace);
-	void setLastName(QString lastName)
-	{
-		if (lastName_ == lastName)
-			return;
-
-		lastName_ = lastName;
-		emit lastNameChanged(lastName_);
-	}
+	void setLastName(QString lastName);
+	void setOoopsEnabled(bool ooopsEnabled);
 };
 
 #endif // APPSETTINGS_H
