@@ -12,7 +12,7 @@ Name:       harbour-lattestation
 # << macros
 
 Summary:    L'Attestation de Sortie
-Version:    0.2
+Version:    0.3
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
