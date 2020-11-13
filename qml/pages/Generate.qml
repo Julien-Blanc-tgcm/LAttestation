@@ -3,6 +3,12 @@ import Sailfish.Silica 1.0
 
 Page {
     SilicaFlickable {
+        Timer {
+            id: theTimer
+            interval: 1000
+            repeat: true
+            onTriggered: refreshTimes()
+        }
 
         PullDownMenu {
             MenuItem {
@@ -14,17 +20,20 @@ Page {
             }
         }
 
+
         anchors.fill: parent
-        contentHeight: column.height
+        contentHeight: Math.max(column.height, parent.height)
         Column {
             id: column
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.horizontalPageMargin
+            spacing: Theme.paddingMedium
             PageHeader {
                 title: qsTr("Contenu")
             }
+
             ComboBox {
                 id: motive
                 width: parent.width
@@ -63,6 +72,25 @@ Page {
                 onClicked: generate()
             }
         }
+        Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: Theme.paddingLarge
+            spacing: Theme.paddingMedium
+            Icon {
+                color: Theme.highlightColor
+                source: "image://theme/icon-m-clock"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Label {
+                id: currentTime
+                text: ""
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: Theme.fontSizeHuge
+                color: Theme.highlightColor
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
     }
 
     function formatValue(sliderValue)
@@ -74,7 +102,9 @@ Page {
     }
 
     Component.onCompleted: {
-        doneAt.text = appSettings.defaultPlace
+        doneAt.text = appSettings.defaultPlace;
+        refreshTimes();
+        theTimer.start();
     }
 
     function generate()
@@ -88,5 +118,14 @@ Page {
                            doneAt.text,
                            doneTimeShift.value);
         pageStack.push(Qt.resolvedUrl("Preview.qml"));
+    }
+
+    function refreshTimes()
+    {
+        var val = doneTimeShift.value;
+        var n = new Date();
+        currentTime.text = n.toTimeString().substring(0, 5);
+        doneTimeShift.value = -1;
+        doneTimeShift.value = val;
     }
 }
