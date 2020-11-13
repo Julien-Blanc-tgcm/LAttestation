@@ -18,12 +18,12 @@ Dialog {
             anchors.leftMargin: parent.leftMargin
             anchors.rightMargin: parent.rightMargin
             DialogHeader{
-                title: qsTr("Paramètres")
+                title: qsTr("Parameters") // Paramètres
             }
             TextField {
                 id: firstName
                 width: parent.width
-                label: qsTr("Prénom")
+                label: qsTr("First name") // Prénom
                 placeholderText: "Camille"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
@@ -32,7 +32,7 @@ Dialog {
             TextField {
                 id: lastName
                 width: parent.width
-                label: qsTr("Nom")
+                label: qsTr("Surname") // Nom
                 placeholderText: "Dupont"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
@@ -41,7 +41,7 @@ Dialog {
             TextField {
                 id: birthDate
                 width: parent.width
-                label: qsTr("Date de naissance")
+                label: qsTr("Birth date") // Date de naissance
                 placeholderText: "01/01/1970"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
@@ -50,7 +50,7 @@ Dialog {
             TextField {
                 id: birthPlace
                 width: parent.width
-                label: qsTr("Lieu de naissance")
+                label: qsTr("Birth place") // Lieu de naissance
                 placeholderText: "Paris"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
@@ -59,7 +59,7 @@ Dialog {
             TextField {
                 id: address
                 width: parent.width
-                label: qsTr("Adresse")
+                label: qsTr("Address") // Adresse
                 placeholderText: "55 rue du faubourg Saint-Honoré, 75008 Paris"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
@@ -68,7 +68,7 @@ Dialog {
             TextField {
                 id: defaultPlace
                 width: parent.width
-                label: qsTr("Valeur par défaut pour le « fait à »")
+                label: qsTr("Default 'Done at' value") // Valeur par défaut pour le « fait à »
                 placeholderText: "Paris"
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-accept"
@@ -77,7 +77,7 @@ Dialog {
             TextSwitch {
                 id: enableOoops
                 width: parent.width
-                text: qsTr("Activer le mode « oups »")
+                text: qsTr("Activate 'ooops' mode") // Activer le mode « oups »
             }
         }
     }

@@ -13,34 +13,34 @@ Page {
         anchors.fill: parent
         id: list
         header: PageHeader {
-            title: qsTr("Attestation de sortie")
+            title: qsTr("Certificate of discharge") // "Attestation de sortie"
         }
 
         PullDownMenu{
             MenuItem {
-                text: qsTr("Paramètres")
+                text: qsTr("Parameters") // "Paramètres"
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
         }
 
         model: ListModel {
             ListElement {
-                text: qsTr("Générer une attestation")
+                text: qsTr("Generate a certificate") // Générer une attestation
                 page: "Generate.qml"
                 ooops: false
             }
             ListElement {
-                text: qsTr("Précédentes attestations")
+                text: qsTr("Previous certificates") // Précédentes attestations
                 page: "Access.qml"
                 ooops: false
             }
             ListElement {
-                text: qsTr("Oups - Loisirs")
+                text: qsTr("Ooops - Sports") // Oups - Sport & Loisirs
                 page: "QuickLoisirs.qml"
                 ooops: true
             }
             ListElement {
-                text: qsTr("Oups - Courses")
+                text: qsTr("Ooops - Shopping") // Oups - Courses
                 page: "QuickShopping.qml"
                 ooops: true
             }

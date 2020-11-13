@@ -5,7 +5,7 @@ CoverBackground {
     Label {
         id: label
         anchors.centerIn: parent
-        text: qsTr("Attestation de sortie")
+        text: qsTr("Certificate of discharge")
         wrapMode: Text.Wrap
         width: parent.width - Theme.horizontalPageMargin
         horizontalAlignment: Text.AlignHCenter

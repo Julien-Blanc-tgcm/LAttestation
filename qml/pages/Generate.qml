@@ -12,7 +12,7 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Agrandir la plage horaire")
+                text: qsTr("Increase time range")
                 onClicked: {
                     doneTimeShift.maximumValue = doneTimeShift.maximumValue * 2
                     doneTimeShift.minimumValue = doneTimeShift.minimumValue * 2
@@ -31,34 +31,34 @@ Page {
             anchors.rightMargin: Theme.horizontalPageMargin
             spacing: Theme.paddingMedium
             PageHeader {
-                title: qsTr("Contenu")
+                title: qsTr("Content")
             }
 
             ComboBox {
                 id: motive
                 width: parent.width
-                label: qsTr("Motif")
+                label: qsTr("Motive")
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Courses") }
-                    MenuItem { text: qsTr("Loisir") }
-                    MenuItem { text: qsTr("Déplacement pro") }
-                    MenuItem { text: qsTr("Consultation médicale") }
-                    MenuItem { text: qsTr("Assistance pers. vulnérable") }
-                    MenuItem { text: qsTr("Mission intérêt public") }
-                    MenuItem { text: qsTr("Accompagnement enfants") }
-                    MenuItem { text: qsTr("Convocation") }
-                    MenuItem { text: qsTr("Aide handicapé") }
+                    MenuItem { text: qsTr("Shopping") } // Courses
+                    MenuItem { text: qsTr("Sport / hobbies") } // Loisirs - Sport
+                    MenuItem { text: qsTr("Professional") } // Déplacement pro
+                    MenuItem { text: qsTr("Medical consultation") } // Consultation médicale
+                    MenuItem { text: qsTr("Help vulnerable people") } // Assistance pers. vulnérable
+                    MenuItem { text: qsTr("Public interest") } // Mission intérêt public
+                    MenuItem { text: qsTr("Children accompanying") } // Accompagnement enfants
+                    MenuItem { text: qsTr("Convocation") } // Convocation
+                    MenuItem { text: qsTr("Assistance to disabled") } // Aide pers. handicapée
                 }
             }
             TextField {
                 id: doneAt
                 width: parent.width
-                label: qsTr("Fait à")
-                placeholderText: qsTr("Fait à")
+                label: qsTr("Done at") // Fait à
+                placeholderText: qsTr("Done at") // Fait à
             }
             Slider {
                 id: doneTimeShift
-                label: qsTr("Heure de sortie")
+                label: qsTr("Out hour") // Heure de sortie
                 width: parent.width
                 minimumValue: -120
                 maximumValue: 30
@@ -66,9 +66,10 @@ Page {
                 value: 0
                 valueText: formatValue(value)
             }
+
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Générer")
+                text: qsTr("Generate") // Générer
                 onClicked: generate()
             }
         }

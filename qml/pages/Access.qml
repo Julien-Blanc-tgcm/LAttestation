@@ -10,7 +10,7 @@ Page {
     SilicaListView {
         anchors.fill: parent
         header: PageHeader {
-            title: qsTr("Attestations en cours");
+            title: qsTr("Generated certificates"); // Attestations générées
             id: header
         }
         model: attestationmanager.attestations
@@ -18,7 +18,7 @@ Page {
             id: theItem
             property var att : attestationmanager
             function remove() {
-                remorseItem.execute(theItem, "Suppression", function() { att.deleteAttestation(modelData);});
+                remorseItem.execute(theItem, qsTr("Deleting"), function() { att.deleteAttestation(modelData);});
             }
             RemorseItem {
                 id: remorseItem
@@ -32,7 +32,7 @@ Page {
             }
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Effacer")
+                    text: qsTr("Delete") // Effacer
                     onClicked: remove()
                 }
             }
