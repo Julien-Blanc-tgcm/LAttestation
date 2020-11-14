@@ -13,9 +13,9 @@ Name:       harbour-lattestation
 
 Summary:    L'Attestation de Sortie
 Version:    0.3
-Release:    1
+Release:    2
 Group:      Qt/Qt
-License:    LICENSE
+License:    GPLv3
 URL:        http://github.com/JulienBlanc-tgcm/LAttestation
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-lattestation.yaml
@@ -82,3 +82,10 @@ desktop-file-install --delete-original       \
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 # >> files
 # << files
+
+%changelog
+* Fri Nov 13 2020 - Julien Blanc <julien.blanc@tgcm.eu> 0.3-1
+- version en Frenglish
+- ajout de l’heure courante sur la page de génération
+- mode « oups » (optionnel)
+

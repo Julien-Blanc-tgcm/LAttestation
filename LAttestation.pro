@@ -44,7 +44,7 @@ DISTFILES += qml/LAttestation.qml \
     rpm/harbour-lattestation.spec \
     rpm/harbour-lattestation.yaml \
     translations/*.ts \
-    LAttestation.desktop
+    harbour-lattestation.desktop
 
 resources.files += resources/*
 resources.path += /usr/share/$$TARGET/resources
