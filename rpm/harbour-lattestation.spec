@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 
 # >> install post
 install -d %{buildroot}/usr/share/%{name}/lib
-install -m 644 -p /usr/lib/libpoppler.so.94 %{buildroot}/usr/share/%{name}/lib/
+install -m 644 -p /usr/lib/libpoppler.so.85 %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libpoppler-qt5.so.1 %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libfreetype.so.6 %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libopenjp2.so.7 %{buildroot}/usr/share/%{name}/lib/
