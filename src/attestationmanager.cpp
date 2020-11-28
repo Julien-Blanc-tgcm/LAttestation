@@ -9,39 +9,61 @@ AttestationManager::AttestationManager(QObject *parent) : QObject(parent)
 	refresh_();
 }
 
-QStringList AttestationManager::attestations() const
+QQmlListProperty<Attestation> AttestationManager::attestations()
 {
-	return attestations_;
+	return QQmlListProperty<Attestation>(
+	    this,
+	    nullptr,
+	    [](QQmlListProperty<Attestation>* list) {
+		    return static_cast<AttestationManager*>(list->object)->attestations_.size();
+	    },
+	    [](QQmlListProperty<Attestation>* list, int index) {
+		    return static_cast<AttestationManager*>(list->object)->attestations_.at(index);
+	    });
 }
 
-void AttestationManager::openAttestation(QString attestation)
+void AttestationManager::openAttestation(Attestation* attestation)
 {
 	auto base = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 	auto dest = base.at(0);
 	QDir dir(dest);
 	dir.cd("Attestations");
-	auto file = dir.absolutePath() + "/" + attestation;
+	auto file = dir.absolutePath() + "/" + attestation->name();
 	QProcess::startDetached("xdg-open", QStringList{file});
 }
 
-void AttestationManager::deleteAttestation(QString attestation)
+void AttestationManager::deleteAttestation(Attestation* attestation)
 {
 	auto base = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 	auto dest = base.at(0);
 	QDir dir(dest);
 	dir.cd("Attestations");
-	dir.remove(attestation);
-	attestations_.removeAll(attestation);
-	emit attestationsChanged(attestations_);
+	dir.remove(attestation->name());
+	for (auto it = attestations_.begin(); it != attestations_.end();)
+	{
+		if (attestation->name() == (*it)->name())
+			it = attestations_.erase(it);
+		else
+			++it;
+	}
+	emit attestationsChanged();
 }
 
-void AttestationManager::setAttestations(QStringList attestations)
+void AttestationManager::deleteAll()
 {
-	if (attestations_ == attestations)
-		return;
-
-	attestations_ = attestations;
-	emit attestationsChanged(attestations_);
+	auto base = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+	auto dest = base.at(0);
+	QDir dir(dest);
+	if (dir.cd("Attestations"))
+	{
+		if (dir.removeRecursively())
+		{
+			dir.cdUp();
+			dir.mkdir("Attestations");
+		}
+		attestations_.clear();
+	}
+	emit attestationsChanged();
 }
 
 void AttestationManager::refresh_()
@@ -56,7 +78,9 @@ void AttestationManager::refresh_()
 	while (it.hasNext())
 	{
 		auto str = it.next();
-		attestations_.push_back(it.fileName());
+		auto att = new Attestation(this);
+		att->setName(it.fileName());
+		attestations_.push_back(att);
 	}
-	emit attestationsChanged(attestations_);
+	emit attestationsChanged();
 }

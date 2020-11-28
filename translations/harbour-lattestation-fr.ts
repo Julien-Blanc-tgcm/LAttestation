@@ -4,19 +4,24 @@
 <context>
     <name>Access</name>
     <message>
-        <location filename="../qml/pages/Access.qml" line="13"/>
+        <location filename="../qml/pages/Access.qml" line="15"/>
+        <source>Clear all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Access.qml" line="26"/>
         <source>Generated certificates</source>
-        <translation>Attestations générées</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Access.qml" line="21"/>
+        <location filename="../qml/pages/Access.qml" line="34"/>
         <source>Deleting</source>
-        <translation>Suppression</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Access.qml" line="35"/>
+        <location filename="../qml/pages/Access.qml" line="48"/>
         <source>Delete</source>
-        <translation>Effacer</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

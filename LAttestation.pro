@@ -16,6 +16,7 @@ CONFIG += sailfishapp
 
 SOURCES += src/LAttestation.cpp \
     src/appsettings.cpp \
+    src/attestation.cpp \
     src/attestationmanager.cpp \
     src/generationparameters.cpp \
     src/generator.cpp \
@@ -78,6 +79,7 @@ QMAKE_RPATHDIR = $$DEPLOYMENT_PATH/lib
 
 HEADERS += \
     src/appsettings.h \
+    src/attestation.h \
     src/attestationmanager.h \
     src/config.h \
     src/generationparameters.h \

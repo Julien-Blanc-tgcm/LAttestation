@@ -2,30 +2,31 @@
 #define ATTESTATIONMANAGER_H
 
 #include <QObject>
-#include <QVariantList>
+#include <QQmlListProperty>
+#include <QVector>
+
+#include "attestation.h"
 
 class AttestationManager : public QObject
 {
 	Q_OBJECT
-	QStringList attestations_;
+	QVector<Attestation*> attestations_;
 
   public:
 	explicit AttestationManager(QObject* parent = nullptr);
 
-	Q_PROPERTY(QStringList attestations READ attestations WRITE setAttestations NOTIFY attestationsChanged)
+	Q_PROPERTY(QQmlListProperty<Attestation> attestations READ attestations NOTIFY attestationsChanged)
 
-	QStringList attestations() const;
+	QQmlListProperty<Attestation> attestations();
 
-	Q_INVOKABLE void openAttestation(QString attestation);
+	Q_INVOKABLE void openAttestation(Attestation* attestation);
 
-	Q_INVOKABLE void deleteAttestation(QString attestation);
+	Q_INVOKABLE void deleteAttestation(Attestation* attestation);
+
+	Q_INVOKABLE void deleteAll();
 
   signals:
-
-	void attestationsChanged(QStringList attestations);
-
-  public slots:
-	void setAttestations(QStringList attestations);
+	void attestationsChanged();
 
   private:
 	void refresh_();
