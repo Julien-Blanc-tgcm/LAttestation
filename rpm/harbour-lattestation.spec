@@ -12,8 +12,8 @@ Name:       harbour-lattestation
 # << macros
 
 Summary:    L'Attestation de Sortie
-Version:    0.3
-Release:    2
+Version:    0.4
+Release:    1
 Group:      Qt/Qt
 License:    GPLv3
 URL:        http://github.com/JulienBlanc-tgcm/LAttestation
@@ -84,6 +84,10 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Sat Nov 28 2020 - Julien Blanc <julien.blanc@tgcm.eu> 0.4-1
+- update of the pdf file model
+- can now select multiple motives
+- improved deletion of old certificates
 * Fri Nov 13 2020 - Julien Blanc <julien.blanc@tgcm.eu> 0.3-1
 - version en Frenglish
 - ajout de l’heure courante sur la page de génération
