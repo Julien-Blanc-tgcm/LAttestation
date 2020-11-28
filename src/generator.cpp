@@ -315,15 +315,15 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 namespace
 {
 int yMotives[] = {
-    533, // achats
-    358, // sport_animaux
-    578, // travail
-    477, // sante
-    435, // famille
-    255, // missions
-    211, // enfants
-    295, // convocation
-    396, // handicap:
+    482, // achats
+    348, // sport_animaux
+    552, // travail
+    433, // sante
+    409, // famille
+    251, // missions
+    227, // enfants
+    276, // convocation
+    373, // handicap:
 };
 }
 
@@ -331,26 +331,26 @@ void Generator::customizeDocument_(int ratio, QPainter* painter, GenerationParam
 {
 	painter->save();
 
-	painter->setFont(QFont("helvetica", ratio * 18));
-	painter->drawText(convertCoordinate_(ratio, 78, yMotives[parameters.motive()]), "x");
-	painter->setFont(QFont("helvetica", ratio * 11));
+	painter->setFont(QFont("helvetica", ratio * 14));
+	painter->drawText(convertCoordinate_(ratio, 45, yMotives[parameters.motive()]), "x");
+	painter->setFont(QFont("helvetica", ratio * 9));
 
 	// first name, last name
-	painter->drawText(convertCoordinate_(ratio, 119, 696), parameters.firstName()+ " " + parameters.lastName());
+	painter->drawText(convertCoordinate_(ratio, 98, 703), parameters.firstName()+ " " + parameters.lastName());
 
-	painter->drawText(convertCoordinate_(ratio, 119, 674), parameters.birthDate());
-	painter->drawText(convertCoordinate_(ratio, 297, 674), parameters.birthPlace());
+	painter->drawText(convertCoordinate_(ratio, 98, 684), parameters.birthDate());
+	painter->drawText(convertCoordinate_(ratio, 217, 684), parameters.birthPlace());
 
-	painter->drawText(convertCoordinate_(ratio, 133, 652), parameters.address());
+	painter->drawText(convertCoordinate_(ratio, 110, 665), parameters.address());
 
 	// done place
-	painter->drawText(convertCoordinate_(ratio, 105, 177), parameters.donePlace());
+	painter->drawText(convertCoordinate_(ratio, 81, 77), parameters.donePlace());
 
 	// out date
 	QString outDateStr = parameters.outDate().toString("dd/MM/yyyy");
 	QString outTimeStr = parameters.outDate().toString("hh:mm");
-	painter->drawText(convertCoordinate_(ratio, 91, 153), outDateStr);
-	painter->drawText(convertCoordinate_(ratio, 264, 153), outTimeStr);
+	painter->drawText(convertCoordinate_(ratio, 81, 58), outDateStr);
+	painter->drawText(convertCoordinate_(ratio, 228, 58), outTimeStr);
 
 	painter->restore();
 }
