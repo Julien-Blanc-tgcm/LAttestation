@@ -2,6 +2,49 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
+    property bool multipleMotives : false;
+    property int motiveValue : 0
+
+    ListModel {
+        id: motivesModel
+        ListElement {
+            name: qsTr("Shopping")
+            value: 0x1;
+        }
+        ListElement {
+            name: qsTr("Sport / hobbies")  // Loisirs - Sport
+            value: 0x2;
+        }
+        ListElement {
+            name: qsTr("Professional") // Déplacement pro
+            value: 0x4;
+        }
+        ListElement {
+            name: qsTr("Medical consultation") // Consultation médicale
+            value: 0x8
+        }
+        ListElement {
+            name: qsTr("Help vulnerable people") // Assistance pers. vulnérable
+            value: 0x10
+        }
+        ListElement {
+            name: qsTr("Public interest") // Mission intérêt public
+            value: 0x20
+        }
+        ListElement {
+            name: qsTr("Children accompanying") // Accompagnement enfants
+            value: 0x40
+        }
+        ListElement {
+            name: qsTr("Convocation") // Convocation
+            value: 0x80
+        }
+        ListElement {
+            name: qsTr("Assistance to disabled") // Aide pers. handicapée
+            value: 0x100
+        }
+    }
+
     SilicaFlickable {
         Timer {
             id: theTimer
@@ -12,6 +55,20 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Use multiple motives")
+                onClicked: {
+                    multipleMotives = true;
+                }
+                visible: multipleMotives === false
+            }
+            MenuItem {
+                text: qsTr("Use single motive")
+                onClicked: {
+                    multipleMotives = false;
+                }
+                visible: multipleMotives === true
+            }
+            MenuItem {
                 text: qsTr("Increase time range")
                 onClicked: {
                     doneTimeShift.maximumValue = doneTimeShift.maximumValue * 2
@@ -21,8 +78,10 @@ Page {
         }
 
 
+
         anchors.fill: parent
-        contentHeight: Math.max(column.height, parent.height)
+        contentHeight: Math.max(column.height + footer.height + 3 * column.spacing,
+                                parent.height)
         Column {
             id: column
             anchors.left: parent.left
@@ -36,20 +95,33 @@ Page {
 
             ComboBox {
                 id: motive
+                visible: multipleMotives === false
                 width: parent.width
                 label: qsTr("Motive")
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Shopping") } // Courses
-                    MenuItem { text: qsTr("Sport / hobbies") } // Loisirs - Sport
-                    MenuItem { text: qsTr("Professional") } // Déplacement pro
-                    MenuItem { text: qsTr("Medical consultation") } // Consultation médicale
-                    MenuItem { text: qsTr("Help vulnerable people") } // Assistance pers. vulnérable
-                    MenuItem { text: qsTr("Public interest") } // Mission intérêt public
-                    MenuItem { text: qsTr("Children accompanying") } // Accompagnement enfants
-                    MenuItem { text: qsTr("Convocation") } // Convocation
-                    MenuItem { text: qsTr("Assistance to disabled") } // Aide pers. handicapée
+                    Repeater {
+                        model: motivesModel
+                        delegate: MenuItem {
+                            text: model.name
+                        }
+                    }
                 }
             }
+
+            Repeater {
+                model: motivesModel
+                delegate: TextSwitch {
+                    text: model.name
+                    onCheckedChanged: {
+                        if(checked)
+                            motiveValue |= model.value;
+                        else
+                            motiveValue &= ~model.value;
+                    }
+                    visible: multipleMotives === true
+                }
+            }
+
             TextField {
                 id: doneAt
                 width: parent.width
@@ -74,6 +146,7 @@ Page {
             }
         }
         Row {
+            id: footer
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: Theme.paddingLarge
@@ -110,12 +183,15 @@ Page {
 
     function generate()
     {
+        var motiveV = 1 << motive.currentIndex;
+        if(multipleMotives)
+            motiveV = motiveValue
         generator.generate(appSettings.firstName,
                            appSettings.lastName,
                            appSettings.birthDate,
                            appSettings.birthPlace,
                            appSettings.address,
-                           1 << motive.currentIndex,
+                           motiveV,
                            doneAt.text,
                            doneTimeShift.value);
         pageStack.push(Qt.resolvedUrl("Preview.qml"));

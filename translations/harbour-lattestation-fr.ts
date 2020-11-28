@@ -30,78 +30,88 @@
 <context>
     <name>Generate</name>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="15"/>
+        <location filename="../qml/pages/Generate.qml" line="72"/>
         <source>Increase time range</source>
         <translation>Agrandir la plage horaire</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="34"/>
+        <location filename="../qml/pages/Generate.qml" line="93"/>
         <source>Content</source>
         <translation>Contenu</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="42"/>
+        <location filename="../qml/pages/Generate.qml" line="11"/>
         <source>Shopping</source>
         <translation>Courses</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="43"/>
+        <location filename="../qml/pages/Generate.qml" line="15"/>
         <source>Sport / hobbies</source>
         <translation>Loisirs - Sport</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="44"/>
+        <location filename="../qml/pages/Generate.qml" line="19"/>
         <source>Professional</source>
         <translation>Déplacement pro</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="45"/>
+        <location filename="../qml/pages/Generate.qml" line="23"/>
         <source>Medical consultation</source>
         <translation>Consultation médicale</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="46"/>
+        <location filename="../qml/pages/Generate.qml" line="27"/>
         <source>Help vulnerable people</source>
         <translation>Assistance pers. vulnérable</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="47"/>
+        <location filename="../qml/pages/Generate.qml" line="31"/>
         <source>Public interest</source>
         <translation>Mission intérêt public</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="48"/>
+        <location filename="../qml/pages/Generate.qml" line="35"/>
         <source>Children accompanying</source>
         <translation>Accompagnement enfants</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="50"/>
+        <location filename="../qml/pages/Generate.qml" line="43"/>
         <source>Assistance to disabled</source>
         <translation>Aide pers. handicapée</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="56"/>
-        <location filename="../qml/pages/Generate.qml" line="57"/>
+        <location filename="../qml/pages/Generate.qml" line="58"/>
+        <source>Use multiple motives</source>
+        <translation>Sélectionner plusieurs motifs</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="65"/>
+        <source>Use single motive</source>
+        <translation>Sélectionner un seul motif</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="128"/>
+        <location filename="../qml/pages/Generate.qml" line="129"/>
         <source>Done at</source>
         <translation>Fait à</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="61"/>
+        <location filename="../qml/pages/Generate.qml" line="133"/>
         <source>Out hour</source>
         <translation>Heure de sortie</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="72"/>
+        <location filename="../qml/pages/Generate.qml" line="144"/>
         <source>Generate</source>
         <translation>Générer</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="40"/>
+        <location filename="../qml/pages/Generate.qml" line="100"/>
         <source>Motive</source>
         <translation>Motif</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="49"/>
+        <location filename="../qml/pages/Generate.qml" line="39"/>
         <source>Convocation</source>
         <translation>Convocation</translation>
     </message>
