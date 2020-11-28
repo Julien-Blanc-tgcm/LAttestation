@@ -15,30 +15,47 @@
 
 namespace
 {
-QString motiveText_(int motive)
+QString singleMotiveText_(int motive)
 {
 	switch (motive)
 	{
-		case 0:
+		case 1u << 0u:
 			return "achats";
-		case 1:
+		case 1u << 1u:
 			return "sport_animaux";
-		case 2:
+		case 1u << 2u:
 			return "travail";
-		case 3:
+		case 1u << 3u:
 			return "sante";
-		case 4:
+		case 1u << 4u:
 			return "famille";
-		case 5:
+		case 1u << 5u:
 			return "missions";
-		case 6:
+		case 1u << 6u:
 			return "enfants";
-		case 7:
+		case 1u << 7u:
 			return "convocation";
-		case 8:
+		case 1u << 8u:
 			return "handicap";
 	}
 	return QString{};
+}
+
+QString motiveText_(int motives)
+{
+	QString ret;
+	for (int i = 0; i < 9; ++i)
+	{
+		auto bit = 1 << i;
+		if ((motives & bit) == bit)
+		{
+			auto motive = singleMotiveText_(bit);
+			if (ret.size() > 0)
+				ret += ", ";
+			ret += motive;
+		}
+	}
+	return ret;
 }
 
 QDateTime getCreationDate_(int timeShift)
@@ -332,7 +349,14 @@ void Generator::customizeDocument_(int ratio, QPainter* painter, GenerationParam
 	painter->save();
 
 	painter->setFont(QFont("helvetica", ratio * 14));
-	painter->drawText(convertCoordinate_(ratio, 45, yMotives[parameters.motive()]), "x");
+	for (int i = 0; i < 9; ++i)
+	{
+		auto bit = 1 << i;
+		if ((parameters.motive() & bit) != 0) // bit set
+		{
+			painter->drawText(convertCoordinate_(ratio, 45, yMotives[i]), "x");
+		}
+	}
 	painter->setFont(QFont("helvetica", ratio * 9));
 
 	// first name, last name

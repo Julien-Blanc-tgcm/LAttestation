@@ -115,7 +115,7 @@ Page {
                            appSettings.birthDate,
                            appSettings.birthPlace,
                            appSettings.address,
-                           motive.currentIndex,
+                           1 << motive.currentIndex,
                            doneAt.text,
                            doneTimeShift.value);
         pageStack.push(Qt.resolvedUrl("Preview.qml"));

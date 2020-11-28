@@ -15,7 +15,7 @@ Page {
                                           appSettings.birthDate,
                                           appSettings.birthPlace,
                                           appSettings.address,
-                                          0,
+                                          1,
                                           appSettings.defaultPlace,
                                           timeshift_()) }
         interval: 500
