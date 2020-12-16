@@ -8,11 +8,7 @@ Page {
     ListModel {
         id: motivesModel
         ListElement {
-            name: qsTr("Shopping")
-            value: 0x1;
-        }
-        ListElement {
-            name: qsTr("Sport / hobbies")  // Loisirs - Sport
+            name: qsTr("Animals")  // Loisirs - Sport - Animaux
             value: 0x2;
         }
         ListElement {
@@ -32,16 +28,16 @@ Page {
             value: 0x20
         }
         ListElement {
-            name: qsTr("Children accompanying") // Accompagnement enfants
-            value: 0x40
-        }
-        ListElement {
             name: qsTr("Convocation") // Convocation
             value: 0x80
         }
         ListElement {
             name: qsTr("Assistance to disabled") // Aide pers. handicapée
             value: 0x100
+        }
+        ListElement {
+            name: qsTr("Transport transit"); // transit ferroviaire / aérien
+            value: 0x200
         }
     }
 
@@ -103,6 +99,7 @@ Page {
                         model: motivesModel
                         delegate: MenuItem {
                             text: model.name
+                            property int value: model.value
                         }
                     }
                 }
@@ -183,7 +180,9 @@ Page {
 
     function generate()
     {
-        var motiveV = 1 << motive.currentIndex;
+        var motiveV = motive.currentItem.value;
+        console.log(motiveV);
+        console.log(motive.currentItem);
         if(multipleMotives)
             motiveV = motiveValue
         generator.generate(appSettings.firstName,

@@ -22,7 +22,7 @@ QString singleMotiveText_(int motive)
 		case 1u << 0u:
 			return "achats";
 		case 1u << 1u:
-			return "sport_animaux";
+			return "animaux";
 		case 1u << 2u:
 			return "travail";
 		case 1u << 3u:
@@ -37,6 +37,8 @@ QString singleMotiveText_(int motive)
 			return "convocation";
 		case 1u << 8u:
 			return "handicap";
+		case 1u << 9u:
+			return "transits";
 	}
 	return QString{};
 }
@@ -44,7 +46,7 @@ QString singleMotiveText_(int motive)
 QString motiveText_(int motives)
 {
 	QString ret;
-	for (int i = 0; i < 9; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		auto bit = 1 << i;
 		if ((motives & bit) == bit)
@@ -291,11 +293,7 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 	// todo : add document customization
 	customizeDocument_(ratio, pdfPainter.get(), parameters);
 
-	QRect source(QPoint(0, 0), bitmap2d_.size());
-	pdfPainter->drawImage(
-	    QRect(convertCoordinate_(ratio, page1->pageSize().width() - 156, 196), QSize(ratio * 96, ratio * 96)),
-	    bitmap2d_,
-	    source);
+	draw2dCode_(ratio, pdfPainter.get(), bitmap2d_);
 	pdfPainter->end();
 
 	memoryBuffer_.setData(QByteArray{}); // empty the memory buffer
@@ -312,10 +310,7 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 		res = page1->renderToPainter(&painter);
 		qDebug() << "PDF rendering" << res;
 		customizeDocument_(1, &painter, parameters);
-		painter.drawImage(
-		    QRect(convertCoordinate_(1, page1->pageSize().width() - 156, 196), QSize(96, 96)),
-		    bitmap2d_,
-		    source);
+		draw2dCode_(1, &painter, bitmap2d_);
 
 		writer->newPage();
 		painter.drawImage(QRect{convertCoordinate_(1, 50, page1->pageSize().height() - 50), QSize{300, 300}},
@@ -332,15 +327,16 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 namespace
 {
 int yMotives[] = {
-    482, // achats
-    348, // sport_animaux
-    552, // travail
-    433, // sante
-    409, // famille
-    251, // missions
-    227, // enfants
-    276, // convocation
-    373, // handicap:
+    0, // achats
+    330, // sport_animaux
+    541, // travail
+    506, // sante
+    474, // famille
+    397, // missions
+    0, // enfants
+    418, // convocation
+    439, // handicap:
+    363, // transits
 };
 }
 
@@ -348,33 +344,39 @@ void Generator::customizeDocument_(int ratio, QPainter* painter, GenerationParam
 {
 	painter->save();
 
-	painter->setFont(QFont("helvetica", ratio * 14));
-	for (int i = 0; i < 9; ++i)
+	painter->setFont(QFont("helvetica", ratio * 12));
+	for (int i = 0; i < 10; ++i)
 	{
 		auto bit = 1 << i;
 		if ((parameters.motive() & bit) != 0) // bit set
 		{
-			painter->drawText(convertCoordinate_(ratio, 45, yMotives[i]), "x");
+			painter->drawText(convertCoordinate_(ratio, 72, yMotives[i]), "x");
 		}
 	}
 	painter->setFont(QFont("helvetica", ratio * 9));
 
 	// first name, last name
-	painter->drawText(convertCoordinate_(ratio, 98, 703), parameters.firstName()+ " " + parameters.lastName());
+	painter->drawText(convertCoordinate_(ratio, 120, 665), parameters.firstName()+ " " + parameters.lastName());
 
-	painter->drawText(convertCoordinate_(ratio, 98, 684), parameters.birthDate());
-	painter->drawText(convertCoordinate_(ratio, 217, 684), parameters.birthPlace());
+	painter->drawText(convertCoordinate_(ratio, 120, 644), parameters.birthDate());
+	painter->drawText(convertCoordinate_(ratio, 313, 644), parameters.birthPlace());
 
-	painter->drawText(convertCoordinate_(ratio, 110, 665), parameters.address());
+	painter->drawText(convertCoordinate_(ratio, 130, 625), parameters.address());
 
 	// done place
-	painter->drawText(convertCoordinate_(ratio, 81, 77), parameters.donePlace());
+	painter->drawText(convertCoordinate_(ratio, 106, 287), parameters.donePlace());
 
 	// out date
 	QString outDateStr = parameters.outDate().toString("dd/MM/yyyy");
 	QString outTimeStr = parameters.outDate().toString("hh:mm");
-	painter->drawText(convertCoordinate_(ratio, 81, 58), outDateStr);
-	painter->drawText(convertCoordinate_(ratio, 228, 58), outTimeStr);
+	painter->drawText(convertCoordinate_(ratio, 90, 267), outDateStr);
+	painter->drawText(convertCoordinate_(ratio, 312, 267), outTimeStr);
 
 	painter->restore();
+}
+
+void Generator::draw2dCode_(int ratio, QPainter *painter, QImage code)
+{
+	QRect source(QPoint(0, 0), code.size());
+	painter->drawImage(QRect(convertCoordinate_(ratio, 440, 222), QSize(ratio * 96, ratio * 96)), code, source);
 }

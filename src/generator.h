@@ -64,6 +64,8 @@ class Generator : public QObject
 	void customizeDocument_(int ratio,
 	                        QPainter* painter,
 	                        GenerationParameters const& parameters);
+
+	static void draw2dCode_(int ratio, QPainter* painter, QImage code);
 };
 
 #endif // GENERATOR_H

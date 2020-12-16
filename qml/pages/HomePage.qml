@@ -35,16 +35,10 @@ Page {
                 ooops: false
             }
             ListElement {
-                text: qsTr("Ooops - Sports") // Oups - Sport & Loisirs
+                text: qsTr("Ooops - Animals") // Oups - Sport & Loisirs
                 page: "QuickLoisirs.qml"
                 ooops: true
             }
-            ListElement {
-                text: qsTr("Ooops - Shopping") // Oups - Courses
-                page: "QuickShopping.qml"
-                ooops: true
-            }
-
         }
         delegate : ListItem {
             height: Theme.itemSizeMedium
