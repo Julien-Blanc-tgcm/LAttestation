@@ -6,22 +6,22 @@
     <message>
         <location filename="../qml/pages/Access.qml" line="15"/>
         <source>Clear all</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout supprimer</translation>
     </message>
     <message>
         <location filename="../qml/pages/Access.qml" line="26"/>
         <source>Generated certificates</source>
-        <translation type="unfinished"></translation>
+        <translation>Attestations générées</translation>
     </message>
     <message>
         <location filename="../qml/pages/Access.qml" line="34"/>
         <source>Deleting</source>
-        <translation type="unfinished"></translation>
+        <translation>Suppression</translation>
     </message>
     <message>
         <location filename="../qml/pages/Access.qml" line="48"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
 </context>
 <context>
@@ -35,88 +35,83 @@
 <context>
     <name>Generate</name>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="72"/>
+        <location filename="../qml/pages/Generate.qml" line="68"/>
         <source>Increase time range</source>
         <translation>Agrandir la plage horaire</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="93"/>
+        <location filename="../qml/pages/Generate.qml" line="89"/>
         <source>Content</source>
         <translation>Contenu</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="11"/>
-        <source>Shopping</source>
-        <translation>Courses</translation>
-    </message>
-    <message>
         <location filename="../qml/pages/Generate.qml" line="15"/>
-        <source>Sport / hobbies</source>
-        <translation>Loisirs - Sport</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="19"/>
         <source>Professional</source>
         <translation>Déplacement pro</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="23"/>
+        <location filename="../qml/pages/Generate.qml" line="19"/>
         <source>Medical consultation</source>
         <translation>Consultation médicale</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="27"/>
+        <location filename="../qml/pages/Generate.qml" line="23"/>
         <source>Help vulnerable people</source>
         <translation>Assistance pers. vulnérable</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="31"/>
+        <location filename="../qml/pages/Generate.qml" line="27"/>
         <source>Public interest</source>
         <translation>Mission intérêt public</translation>
     </message>
     <message>
         <location filename="../qml/pages/Generate.qml" line="35"/>
-        <source>Children accompanying</source>
-        <translation>Accompagnement enfants</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="43"/>
         <source>Assistance to disabled</source>
         <translation>Aide pers. handicapée</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="58"/>
+        <location filename="../qml/pages/Generate.qml" line="39"/>
+        <source>Transport transit</source>
+        <translation>Transit (train / avion)</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="54"/>
         <source>Use multiple motives</source>
         <translation>Sélectionner plusieurs motifs</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="65"/>
+        <location filename="../qml/pages/Generate.qml" line="61"/>
         <source>Use single motive</source>
         <translation>Sélectionner un seul motif</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="128"/>
-        <location filename="../qml/pages/Generate.qml" line="129"/>
+        <location filename="../qml/pages/Generate.qml" line="125"/>
+        <location filename="../qml/pages/Generate.qml" line="126"/>
         <source>Done at</source>
         <translation>Fait à</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="133"/>
+        <location filename="../qml/pages/Generate.qml" line="130"/>
         <source>Out hour</source>
         <translation>Heure de sortie</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="144"/>
+        <location filename="../qml/pages/Generate.qml" line="141"/>
         <source>Generate</source>
         <translation>Générer</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="100"/>
+        <location filename="../qml/pages/Generate.qml" line="96"/>
         <source>Motive</source>
         <translation>Motif</translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="39"/>
+        <location filename="../qml/pages/Generate.qml" line="11"/>
+        <source>Animals</source>
+        <translation>Animaux</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="31"/>
         <source>Convocation</source>
         <translation>Convocation</translation>
     </message>
@@ -145,13 +140,8 @@
     </message>
     <message>
         <location filename="../qml/pages/HomePage.qml" line="38"/>
-        <source>Ooops - Sports</source>
-        <translation>Oups - Sports &amp; Loisirs</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/HomePage.qml" line="43"/>
-        <source>Ooops - Shopping</source>
-        <translation>Oups - Courses</translation>
+        <source>Ooops - Animals</source>
+        <translation>Ooops - Animaux</translation>
     </message>
 </context>
 <context>
