@@ -12,7 +12,7 @@ Name:       harbour-lattestation
 # << macros
 
 Summary:    L'Attestation de Sortie
-Version:    0.4
+Version:    0.5
 Release:    1
 Group:      Qt/Qt
 License:    GPLv3
@@ -84,6 +84,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Wed Dec 16 2020 - Julien Blanc <julien.blanc@tgcm.eu> 0.5-1
+- update of the pdf file model
+- updated the categories
 * Sat Nov 28 2020 - Julien Blanc <julien.blanc@tgcm.eu> 0.4-1
 - update of the pdf file model
 - can now select multiple motives
