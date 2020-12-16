@@ -74,7 +74,7 @@ QString formatCreationDate_(QDateTime date)
 
 QString formatOutDate_(QDateTime date)
 {
-	return QString{"Sortie: "} + date.toString("dd/MM/yyyy") + " a " + date.toString("hh'h'mm");
+	return QString{"Sortie: "} + date.toString("dd/MM/yyyy") + " a " + date.toString("hh:mm");
 }
 
 QString getBirth_(QString birthDate, QString birthPlace)
