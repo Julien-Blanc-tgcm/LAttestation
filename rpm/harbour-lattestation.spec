@@ -12,7 +12,7 @@ Name:       harbour-lattestation
 # << macros
 
 Summary:    L'Attestation de Sortie
-Version:    0.5
+Version:    0.6
 Release:    1
 Group:      Qt/Qt
 License:    GPLv3
@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 
 # >> install post
 install -d %{buildroot}/usr/share/%{name}/lib
-install -m 644 -p /usr/lib/libpoppler.so.* %{buildroot}/usr/share/%{name}/lib/
+install -m 644 -p /usr/lib/libpoppler.so.[0-9][0-9] %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libpoppler-qt5.so.1 %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libfreetype.so.6 %{buildroot}/usr/share/%{name}/lib/
 install -m 644 -p /usr/lib/libopenjp2.so.7 %{buildroot}/usr/share/%{name}/lib/

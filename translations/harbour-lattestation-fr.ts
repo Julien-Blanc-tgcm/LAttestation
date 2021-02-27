@@ -137,7 +137,7 @@
     <message>
         <location filename="../qml/pages/HomePage.qml" line="68"/>
         <source>Ooops - Shopping</source>
-        <translation>Génération rapide - courses</translation>
+        <translation>Génération rapide - Courses</translation>
     </message>
     <message>
         <location filename="../qml/pages/HomePage.qml" line="77"/>
