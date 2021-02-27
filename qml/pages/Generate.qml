@@ -2,46 +2,17 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    property bool multipleMotives : false;
+    property bool multipleMotives : true;
     property int motiveValue : 0
-
-    ListModel {
-        id: motivesModel
-        ListElement {
-            name: qsTr("Animals")  // Loisirs - Sport - Animaux
-            value: 0x2;
-        }
-        ListElement {
-            name: qsTr("Professional") // Déplacement pro
-            value: 0x4;
-        }
-        ListElement {
-            name: qsTr("Medical consultation") // Consultation médicale
-            value: 0x8
-        }
-        ListElement {
-            name: qsTr("Help vulnerable people") // Assistance pers. vulnérable
-            value: 0x10
-        }
-        ListElement {
-            name: qsTr("Public interest") // Mission intérêt public
-            value: 0x20
-        }
-        ListElement {
-            name: qsTr("Convocation") // Convocation
-            value: 0x80
-        }
-        ListElement {
-            name: qsTr("Assistance to disabled") // Aide pers. handicapée
-            value: 0x100
-        }
-        ListElement {
-            name: qsTr("Transport transit"); // transit ferroviaire / aérien
-            value: 0x200
-        }
-    }
+    property int certificateType: 0
+    property bool national: true
+    property bool local: true
 
     SilicaFlickable {
+        anchors.fill: parent
+        contentHeight: Math.max(column.height + footer.height + 3 * column.spacing,
+                                parent.height)
+
         Timer {
             id: theTimer
             interval: 1000
@@ -73,51 +44,108 @@ Page {
             }
         }
 
-
-
-        anchors.fill: parent
-        contentHeight: Math.max(column.height + footer.height + 3 * column.spacing,
-                                parent.height)
         Column {
             id: column
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: Theme.horizontalPageMargin
-            anchors.rightMargin: Theme.horizontalPageMargin
             spacing: Theme.paddingMedium
             PageHeader {
                 title: qsTr("Content")
             }
 
             ComboBox {
-                id: motive
-                visible: multipleMotives === false
+                id: nationalMotive
+                visible: !multipleMotives && national
                 width: parent.width
-                label: qsTr("Motive")
+                label: qsTr("Motive (national)")
                 menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("None")
+                        property string codeData: ""
+                        property int value: 0
+                    }
+
                     Repeater {
-                        model: motivesModel
+                        model: generator.nationalMotives
                         delegate: MenuItem {
-                            text: model.name
-                            property int value: model.value
+                            text: label
+                            property string codeData: model.codeData
+                            property int value: model.identifier
                         }
                     }
                 }
+                onCurrentIndexChanged: {
+                    if(currentIndex !== 0)
+                        localMotive.currentIndex = 0
+                }
+            }
+
+            ComboBox {
+                id: localMotive
+                visible: !multipleMotives && local
+                width: parent.width
+                label: qsTr("Motive (local)")
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("None")
+                        property string codeData: ""
+                        property int value: 0
+                    }
+
+                    Repeater {
+                        model: generator.localMotives
+                        delegate: MenuItem {
+                            text: label
+                            property string codeData: model.codeData
+                            property int value: model.identifier
+                        }
+                    }
+                }
+                onCurrentIndexChanged: {
+                    if(currentIndex !== 0)
+                        nationalMotive.currentIndex = 0
+                }
+            }
+
+
+            SectionHeader {
+                text: qsTr("National motives")
+                visible: multipleMotives && national
             }
 
             Repeater {
-                model: motivesModel
+                model: generator.nationalMotives
                 delegate: TextSwitch {
-                    text: model.name
+                    text: model.label
                     onCheckedChanged: {
                         if(checked)
-                            motiveValue |= model.value;
+                            motiveValue |= model.identifier;
                         else
-                            motiveValue &= ~model.value;
+                            motiveValue &= ~model.identifier;
                     }
-                    visible: multipleMotives === true
+                    visible: multipleMotives && national
                 }
             }
+
+            SectionHeader {
+                text: qsTr("Local motives")
+                visible: multipleMotives && local
+            }
+
+            Repeater {
+                model: generator.localMotives
+                delegate: TextSwitch {
+                    text: model.label
+                    onCheckedChanged: {
+                        if(checked)
+                            motiveValue |= model.identifier;
+                        else
+                            motiveValue &= ~model.identifier;
+                    }
+                    visible: multipleMotives  && local
+                }
+            }
+
 
             TextField {
                 id: doneAt
@@ -176,16 +204,25 @@ Page {
         doneAt.text = appSettings.defaultPlace;
         refreshTimes();
         theTimer.start();
+        generator.setCertificateType(certificateType)
     }
 
     function generate()
     {
-        var motiveV = motive.currentItem.value;
+        var motiveItem = null;
+        var motiveV = 0;
+        if(nationalMotive.currentIndex !== 0)
+            motiveItem = nationalMotive.currentItem;
+        if(localMotive.currentIndex !== 0)
+            motiveItem = localMotive.currentItem;
+        if(motiveItem !== null)
+            motiveV = motiveItem.value;
         console.log(motiveV);
-        console.log(motive.currentItem);
+        console.log(motiveItem);
         if(multipleMotives)
             motiveV = motiveValue
-        generator.generate(appSettings.firstName,
+        generator.generate(certificateType,
+                           appSettings.firstName,
                            appSettings.lastName,
                            appSettings.birthDate,
                            appSettings.birthPlace,
@@ -204,4 +241,6 @@ Page {
         doneTimeShift.value = -1;
         doneTimeShift.value = val;
     }
+
+
 }

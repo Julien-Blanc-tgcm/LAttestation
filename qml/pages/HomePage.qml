@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components"
 
 Page {
     id: page
@@ -8,52 +9,78 @@ Page {
     allowedOrientations: Orientation.All
 
     // To enable PullDownMenu, place our content in a SilicaFlickable
-    SilicaListView
+    SilicaFlickable
     {
-        anchors.fill: parent
-        id: list
-        header: PageHeader {
-            title: qsTr("Certificate of discharge") // "Attestation de sortie"
-        }
-
         PullDownMenu{
             MenuItem {
                 text: qsTr("Parameters") // "Paramètres"
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
         }
+        anchors.fill: parent
+        contentHeight: column.height
+        Column
+        {
+            id: column
+            width:parent.width
+            PageHeader {
+                title: qsTr("Certificate of discharge") // "Attestation de sortie"
+            }
+            SectionHeader {
+                text: qsTr("Certificate « Couvre-feu »")
+            }
 
-        model: ListModel {
-            ListElement {
-                text: qsTr("Generate a certificate") // Générer une attestation
-                page: "Generate.qml"
-                ooops: false
+            MainPageItem {
+                label: qsTr("Multiple choice certificate")
+                destination: Qt.resolvedUrl("Generate.qml")
+                destinationArgs: {"certificateType": 0, "multipleMotives": true}
             }
-            ListElement {
-                text: qsTr("Previous certificates") // Précédentes attestations
-                page: "Access.qml"
-                ooops: false
+
+            MainPageItem {
+                label: qsTr("Single choice certificate")
+                destination: Qt.resolvedUrl("Generate.qml")
+                destinationArgs: {"certificateType": 0, "multipleMotives": false, "local": true, "national": true}
             }
-            ListElement {
-                text: qsTr("Ooops - Animals") // Oups - Sport & Loisirs
-                page: "QuickLoisirs.qml"
-                ooops: true
+
+            MainPageItem {
+                label: qsTr("National certificate")
+                destination: Qt.resolvedUrl("Generate.qml")
+                destinationArgs: {"certificateType": 0, "multipleMotives": false, "local": false, "national": true}
             }
+
+            MainPageItem {
+                label: qsTr("Local certificate")
+                destination: Qt.resolvedUrl("Generate.qml")
+                destinationArgs: {"certificateType": 0, "multipleMotives": false, "local": true, "national": false}
+            }
+
+            SectionHeader {
+                text: qsTr("Quick access")
+                visible: appSettings.ooopsEnabled
+            }
+            MainPageItem {
+                label: qsTr("Ooops - Animals")
+                destination: Qt.resolvedUrl("QuickGenerate.qml")
+                destinationArgs: { "motive":2}
+                visible: appSettings.ooopsEnabled
+            }
+            MainPageItem {
+                label: qsTr("Ooops - Shopping")
+                destination: Qt.resolvedUrl("QuickGenerate.qml")
+                destinationArgs: { "motive":1}
+                visible: appSettings.ooopsEnabled
+            }
+            SectionHeader {
+                text: qsTr("Previous certificates")
+            }
+            MainPageItem {
+                label: qsTr("Previously generated certificates")
+                destination: Qt.resolvedUrl("Access.qml")
+            }
+
         }
-        delegate : ListItem {
-            height: Theme.itemSizeMedium
-            Label {
-                id: lbl
-                text: model.text
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: Theme.horizontalPageMargin
-                anchors.rightMargin: Theme.horizontalPageMargin
-                anchors.verticalCenter: parent.verticalCenter
-            }
-            onClicked: pageStack.push(Qt.resolvedUrl(model.page))
-            visible: !model.ooops || appSettings.ooopsEnabled
-        }
+
+
     }
     Timer {
         id: timer

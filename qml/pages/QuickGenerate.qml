@@ -2,6 +2,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 
 Page {
+    property int motive : 1
 
     BusyIndicator {
         anchors.centerIn: parent
@@ -10,12 +11,13 @@ Page {
     }
 
     Timer {
-        onTriggered: { generator.generate(appSettings.firstName,
+        onTriggered: { generator.generate(0,
+                                          appSettings.firstName,
                                           appSettings.lastName,
                                           appSettings.birthDate,
                                           appSettings.birthPlace,
                                           appSettings.address,
-                                          1,
+                                          motive,
                                           appSettings.defaultPlace,
                                           timeshift_()) }
         interval: 500

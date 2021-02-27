@@ -15,51 +15,6 @@
 
 namespace
 {
-QString singleMotiveText_(int motive)
-{
-	switch (motive)
-	{
-		case 1u << 0u:
-			return "achats";
-		case 1u << 1u:
-			return "animaux";
-		case 1u << 2u:
-			return "travail";
-		case 1u << 3u:
-			return "sante";
-		case 1u << 4u:
-			return "famille";
-		case 1u << 5u:
-			return "missions";
-		case 1u << 6u:
-			return "enfants";
-		case 1u << 7u:
-			return "convocation";
-		case 1u << 8u:
-			return "handicap";
-		case 1u << 9u:
-			return "transits";
-	}
-	return QString{};
-}
-
-QString motiveText_(int motives)
-{
-	QString ret;
-	for (int i = 0; i < 10; ++i)
-	{
-		auto bit = 1 << i;
-		if ((motives & bit) == bit)
-		{
-			auto motive = singleMotiveText_(bit);
-			if (ret.size() > 0)
-				ret += ", ";
-			ret += motive;
-		}
-	}
-	return ret;
-}
-
 QDateTime getCreationDate_(int timeShift)
 {
 	QDateTime date = QDateTime::currentDateTime();
@@ -102,24 +57,16 @@ QString getAddress_(QString address)
 	return "Adresse: " + address;
 }
 
-QString getQRCodeData_(GenerationParameters const& parameters)
-{
-	auto str = formatCreationDate_(parameters.creationDate()) + ";\n" + getLastName_(parameters.lastName()) + ";\n" +
-	           getFirstName_(parameters.firstName()) + ";\n" +
-	           getBirth_(parameters.birthDate(), parameters.birthPlace()) + ";\n" + getAddress_(parameters.address()) +
-	           ";\n" + formatOutDate_(parameters.outDate()) + ";\n" + getMotive_(motiveText_(parameters.motive())) +
-	           ";\n";
-	return str;
-}
-
 } // namespace
 
 Generator::Generator(QObject *parent) : QObject(parent)
 {
-
+	loadMotives_();
+	fillCoordinates_();
 }
 
-void Generator::generate(QString firstName,
+void Generator::generate(int certificateType,
+                         QString firstName,
                          QString lastName,
                          QString birthDate,
                          QString birthPlace,
@@ -129,6 +76,7 @@ void Generator::generate(QString firstName,
                          int timeShift)
 {
 	GenerationParameters parameters;
+	parameters.setCertificateType(certificateType);
 	parameters.setFirstName(firstName);
 	parameters.setLastName(lastName);
 	parameters.setBirthDate(birthDate);
@@ -147,7 +95,7 @@ void Generator::generate(GenerationParameters parameters)
 {
 	qDebug() << parameters.firstName() << parameters.lastName() << parameters.birthDate() << parameters.birthPlace()
 	         << parameters.address() << motiveText_(parameters.motive()) << parameters.donePlace()
-	         << parameters.creationDate() << parameters.outDate();
+	         << parameters.creationDate() << parameters.outDate() << parameters.certificateType();
 
 	auto str = getQRCodeData_(parameters);
 	qDebug() << str;
@@ -222,6 +170,46 @@ QImage Generator::bitmapPdf() const
 	return bitmapPdf_;
 }
 
+int Generator::certificateType() const
+{
+	return certificateType_;
+}
+
+QQmlListProperty<Motive> Generator::motives()
+{
+	return QQmlListProperty<Motive>(
+	    this,
+	    this,
+	    [](QQmlListProperty<Motive>* list) { return static_cast<Generator*>(list->object)->motives_.size(); },
+	    [](QQmlListProperty<Motive>* list, int index) {
+		    return static_cast<Generator*>(list->object)->motives_.at(index);
+	    });
+}
+
+QQmlListProperty<Motive> Generator::nationalMotives()
+{
+	return QQmlListProperty<Motive>(
+	    this,
+	    this,
+	    [](QQmlListProperty<Motive>* list) { return static_cast<Generator*>(list->object)->nationalMotives_.size(); },
+	    [](QQmlListProperty<Motive>* list, int index) {
+		    return static_cast<Generator*>(list->object)->nationalMotives_.at(index);
+	    });
+}
+
+QQmlListProperty<Motive> Generator::localMotives()
+{
+	return QQmlListProperty<Motive>(
+	    this,
+	    this,
+	    [](QQmlListProperty<Motive>* list) { return static_cast<Generator*>(list->object)->localMotives_.size(); },
+	    [](QQmlListProperty<Motive>* list, int index) {
+		    return static_cast<Generator*>(list->object)->localMotives_.at(index);
+	    });
+}
+
+
+
 void Generator::setImage2d(QString image2d)
 {
 	if (image2d_ == image2d)
@@ -240,11 +228,21 @@ void Generator::setImagePdf(QString imagePdf)
 	emit imagePdfChanged(imagePdf_);
 }
 
+void Generator::setCertificateType(int certificateType)
+{
+	if (certificateType_ == certificateType)
+		return;
+
+	certificateType_ = certificateType;
+	emit certificateTypeChanged(certificateType_);
+	loadMotives_();
+}
+
 namespace
 {
 QPoint convertCoordinate_(int ratio, int x, int y)
 {
-	return QPoint(ratio * x, ratio * (842 - y));
+	return QPoint(ratio * x, ratio * y);
 }
 }
 
@@ -313,7 +311,7 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 		draw2dCode_(1, &painter, bitmap2d_);
 
 		writer->newPage();
-		painter.drawImage(QRect{convertCoordinate_(1, 50, page1->pageSize().height() - 50), QSize{300, 300}},
+		painter.drawImage(QRect{convertCoordinate_(1, 50, 50), QSize{300, 300}},
 		                  bitmap2d_,
 		                  bitmap2d_.rect());
 	}
@@ -324,59 +322,195 @@ void Generator::createPdfFile_(GenerationParameters const& parameters)
 	savePdf_();
 }
 
-namespace
-{
-int yMotives[] = {
-    0, // achats
-    330, // sport_animaux
-    541, // travail
-    506, // sante
-    474, // famille
-    397, // missions
-    0, // enfants
-    418, // convocation
-    439, // handicap:
-    363, // transits
-};
-}
-
 void Generator::customizeDocument_(int ratio, QPainter* painter, GenerationParameters const& parameters)
 {
+	auto& coordinates = coordinates_[parameters.certificateType()];
 	painter->save();
 
 	painter->setFont(QFont("helvetica", ratio * 12));
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < Motive::numberOfMotives(); ++i)
 	{
+		qDebug() << "parameter is " << i << ", motives is " << parameters.motive();
 		auto bit = 1 << i;
 		if ((parameters.motive() & bit) != 0) // bit set
 		{
-			painter->drawText(convertCoordinate_(ratio, 72, yMotives[i]), "x");
+			auto key = singleMotiveText_(bit);
+			auto coord = coordinates[key];
+			qDebug() << "key is " << key << "(" << coord << ")";
+			painter->drawText(convertCoordinate_(ratio, coord.x(), coord.y()), "x");
 		}
 	}
 	painter->setFont(QFont("helvetica", ratio * 9));
 
 	// first name, last name
-	painter->drawText(convertCoordinate_(ratio, 120, 665), parameters.firstName()+ " " + parameters.lastName());
+	painter->drawText(convertCoordinate_(ratio, coordinates[firstNameKey()].x(), coordinates[firstNameKey()].y()),
+	                  parameters.firstName() + " " + parameters.lastName());
 
-	painter->drawText(convertCoordinate_(ratio, 120, 644), parameters.birthDate());
-	painter->drawText(convertCoordinate_(ratio, 313, 644), parameters.birthPlace());
+	painter->drawText(convertCoordinate_(ratio, coordinates[birthDateKey()].x(), coordinates[birthDateKey()].y()),
+	                  parameters.birthDate());
+	painter->drawText(convertCoordinate_(ratio, coordinates[birthPlaceKey()].x(), coordinates[birthPlaceKey()].y()),
+	                  parameters.birthPlace());
 
-	painter->drawText(convertCoordinate_(ratio, 130, 625), parameters.address());
+	painter->drawText(convertCoordinate_(ratio, coordinates[addressKey()].x(), coordinates[addressKey()].y()),
+	                  parameters.address());
 
 	// done place
-	painter->drawText(convertCoordinate_(ratio, 106, 287), parameters.donePlace());
+	painter->drawText(convertCoordinate_(ratio, coordinates[doneAtKey()].x(), coordinates[doneAtKey()].y()),
+	                  parameters.donePlace());
 
 	// out date
 	QString outDateStr = parameters.outDate().toString("dd/MM/yyyy");
 	QString outTimeStr = parameters.outDate().toString("hh:mm");
-	painter->drawText(convertCoordinate_(ratio, 90, 267), outDateStr);
-	painter->drawText(convertCoordinate_(ratio, 312, 267), outTimeStr);
+	painter->drawText(convertCoordinate_(ratio, coordinates[outDateKey()].x(), coordinates[outDateKey()].y()),
+	                  outDateStr);
+	painter->drawText(convertCoordinate_(ratio, coordinates[outTimeKey()].x(), coordinates[outTimeKey()].y()),
+	                  outTimeStr);
 
 	painter->restore();
 }
 
 void Generator::draw2dCode_(int ratio, QPainter *painter, QImage code)
 {
+	auto& coordinates = coordinates_[certificateType_];
 	QRect source(QPoint(0, 0), code.size());
-	painter->drawImage(QRect(convertCoordinate_(ratio, 440, 222), QSize(ratio * 96, ratio * 96)), code, source);
+	painter->drawImage(QRect(convertCoordinate_(ratio, coordinates[dataCodeKey()].x(), coordinates[dataCodeKey()].y()),
+	                         QSize(ratio * 96, ratio * 96)),
+	                   code,
+	                   source);
 }
+
+void Generator::loadMotives_()
+{
+	nationalMotives_.push_back(Motive::animals(this));
+	nationalMotives_.push_back(Motive::work(this));
+	nationalMotives_.push_back(Motive::medical(this));
+	nationalMotives_.push_back(Motive::helpVulnerable(this));
+	nationalMotives_.push_back(Motive::publicMission(this));
+	nationalMotives_.push_back(Motive::convocation(this));
+	nationalMotives_.push_back(Motive::assistDisabled(this));
+	nationalMotives_.push_back(Motive::transit(this));
+
+	localMotives_.push_back(Motive::shop(this));
+	localMotives_.push_back(Motive::sport(this));
+	localMotives_.push_back(Motive::meeting(this));
+	localMotives_.push_back(Motive::demarche(this));
+
+	for (auto m : nationalMotives_)
+		motives_.push_back(m);
+	for (auto m : localMotives_)
+		motives_.push_back(m);
+	emit motivesChanged();
+}
+
+QString Generator::motiveText_(int motives)
+{
+	QString ret;
+	for (int i = 0; i < Motive::numberOfMotives(); ++i)
+	{
+		auto bit = 1 << i;
+		if ((motives & bit) == bit)
+		{
+			auto motive = singleMotiveText_(bit);
+			if (ret.size() > 0)
+				ret += ", ";
+			ret += motive;
+		}
+	}
+	return ret;
+}
+
+QString Generator::singleMotiveText_(int motive)
+{
+	for (auto i = 0; i < motives_.size(); ++i)
+	{
+		if (motives_[i]->identifier() & motive)
+		{
+			return motives_[i]->codeData();
+		}
+	}
+	return QString{};
+}
+
+void Generator::fillCoordinates_()
+{
+	auto& mapNational = coordinates_[0];
+	mapNational[Motive::shopKey()] = QPoint{72, 536};
+	mapNational[Motive::animalsKey()] = QPoint{72, 475};
+	mapNational[Motive::workKey()] = QPoint{72, 262};
+	mapNational[Motive::medicalKey()] = QPoint{72, 295};
+	mapNational[Motive::helpVulnerableKey()] = QPoint{72, 329};
+	mapNational[Motive::publicMissionKey()] = QPoint{72, 406};
+	mapNational[Motive::childrenKey()] = QPoint{0, 0};
+	mapNational[Motive::convocationKey()] = QPoint{72, 385};
+	mapNational[Motive::assistDisabledKey()] = QPoint{72, 363};
+	mapNational[Motive::transitKey()] = QPoint{72, 440};
+	mapNational[Motive::sportsKey()] = QPoint{72, 582};
+	mapNational[Motive::meetingKey()] = QPoint{72, 652};
+	mapNational[Motive::demarcheKey()] = QPoint{72, 696};
+
+	mapNational[firstNameKey()] = QPoint{120, 140};
+	mapNational[lastNameKey()] = QPoint{0, 0}; // special value, will be written after first name
+	mapNational[birthDateKey()] = QPoint{120, 158};
+	mapNational[birthPlaceKey()] = QPoint{313, 158};
+	mapNational[addressKey()] = QPoint{130, 178};
+	mapNational[doneAtKey()] = QPoint{106, 730};
+	mapNational[outDateKey()] = QPoint{92, 750};
+	mapNational[outTimeKey()] = QPoint{314, 750};
+	mapNational[dataCodeKey()] = QPoint{410, 104};
+}
+
+QString Generator::firstNameKey()
+{
+	return "__firstName";
+}
+
+QString Generator::lastNameKey()
+{
+	return "__lastName";
+}
+
+QString Generator::birthDateKey()
+{
+	return "__birthDate";
+}
+
+QString Generator::birthPlaceKey()
+{
+	return "__birthPlace";
+}
+
+QString Generator::addressKey()
+{
+	return "__address";
+}
+
+QString Generator::doneAtKey()
+{
+	return "__doneat";
+}
+
+QString Generator::outDateKey()
+{
+	return "__outDate";
+}
+
+QString Generator::outTimeKey()
+{
+	return "__outTime";
+}
+
+QString Generator::dataCodeKey()
+{
+	return "__2dCode";
+}
+
+QString Generator::getQRCodeData_(GenerationParameters const& parameters)
+{
+	auto str = formatCreationDate_(parameters.creationDate()) + ";\n" + getLastName_(parameters.lastName()) + ";\n" +
+	           getFirstName_(parameters.firstName()) + ";\n" +
+	           getBirth_(parameters.birthDate(), parameters.birthPlace()) + ";\n" + getAddress_(parameters.address()) +
+	           ";\n" + formatOutDate_(parameters.outDate()) + ";\n" + getMotive_(motiveText_(parameters.motive())) +
+	           ";\n";
+	return str;
+}
+

@@ -35,83 +35,64 @@
 <context>
     <name>Generate</name>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="68"/>
+        <location filename="../qml/pages/Generate.qml" line="39"/>
         <source>Increase time range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="89"/>
+        <location filename="../qml/pages/Generate.qml" line="53"/>
         <source>Content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="96"/>
-        <source>Motive</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="11"/>
-        <source>Animals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="15"/>
-        <source>Professional</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="19"/>
-        <source>Medical consultation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="23"/>
-        <source>Help vulnerable people</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="27"/>
-        <source>Public interest</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="31"/>
-        <source>Convocation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="35"/>
-        <source>Assistance to disabled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="39"/>
-        <source>Transport transit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/Generate.qml" line="54"/>
+        <location filename="../qml/pages/Generate.qml" line="25"/>
         <source>Use multiple motives</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="61"/>
+        <location filename="../qml/pages/Generate.qml" line="32"/>
         <source>Use single motive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="125"/>
-        <location filename="../qml/pages/Generate.qml" line="126"/>
+        <location filename="../qml/pages/Generate.qml" line="60"/>
+        <source>Motive (national)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="63"/>
+        <location filename="../qml/pages/Generate.qml" line="90"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="87"/>
+        <source>Motive (local)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="112"/>
+        <source>National motives</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="131"/>
+        <source>Local motives</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/Generate.qml" line="153"/>
+        <location filename="../qml/pages/Generate.qml" line="154"/>
         <source>Done at</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="130"/>
+        <location filename="../qml/pages/Generate.qml" line="158"/>
         <source>Out hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/Generate.qml" line="141"/>
+        <location filename="../qml/pages/Generate.qml" line="169"/>
         <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -119,28 +100,131 @@
 <context>
     <name>HomePage</name>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="16"/>
+        <location filename="../qml/pages/HomePage.qml" line="27"/>
         <source>Certificate of discharge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="21"/>
+        <location filename="../qml/pages/HomePage.qml" line="16"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="28"/>
-        <source>Generate a certificate</source>
+        <location filename="../qml/pages/HomePage.qml" line="30"/>
+        <source>Certificate « Couvre-feu »</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="33"/>
+        <location filename="../qml/pages/HomePage.qml" line="34"/>
+        <source>Multiple choice certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="40"/>
+        <source>Single choice certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="46"/>
+        <source>National certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="52"/>
+        <source>Local certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="68"/>
+        <source>Ooops - Shopping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="77"/>
+        <source>Previously generated certificates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="58"/>
+        <source>Quick access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/HomePage.qml" line="74"/>
         <source>Previous certificates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/HomePage.qml" line="38"/>
+        <location filename="../qml/pages/HomePage.qml" line="62"/>
         <source>Ooops - Animals</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Motive</name>
+    <message>
+        <location filename="../src/motive.cpp" line="39"/>
+        <source>Professional</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="34"/>
+        <source>Animals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="29"/>
+        <source>Shopping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="44"/>
+        <source>Medical consultation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="49"/>
+        <source>Help vulnerable people</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="54"/>
+        <source>Public interest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="59"/>
+        <source>Children accompanying</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="64"/>
+        <source>Convocation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="69"/>
+        <source>Assistance to disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="74"/>
+        <source>Transport transit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="79"/>
+        <source>Meeting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="84"/>
+        <source>Démarche</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/motive.cpp" line="89"/>
+        <source>Sports</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

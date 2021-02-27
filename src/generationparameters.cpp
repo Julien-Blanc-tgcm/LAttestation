@@ -47,6 +47,11 @@ QDateTime GenerationParameters::outDate() const
 	return outDate_;
 }
 
+int GenerationParameters::certificateType() const
+{
+	return certificateType_;
+}
+
 void GenerationParameters::setFirstName(QString firstName)
 {
 	firstName_ = firstName;
@@ -92,11 +97,16 @@ void GenerationParameters::setOutDate(QDateTime outDate)
 	outDate_ = outDate;
 }
 
+void GenerationParameters::setCertificateType(int certificateType)
+{
+	certificateType_ = certificateType;
+}
+
 QDataStream& operator<<(QDataStream& stream, const GenerationParameters& parameters)
 {
 	return stream << parameters.firstName() << parameters.lastName() << parameters.birthDate()
 	              << parameters.birthPlace() << parameters.address() << parameters.motive() << parameters.donePlace()
-	              << parameters.creationDate() << parameters.outDate();
+	              << parameters.creationDate() << parameters.outDate() << parameters.certificateType();
 }
 
 QDataStream& operator>>(QDataStream& stream, GenerationParameters& parameters)
@@ -122,5 +132,7 @@ QDataStream& operator>>(QDataStream& stream, GenerationParameters& parameters)
 	parameters.setCreationDate(d);
 	stream >> d;
 	parameters.setOutDate(d);
+	stream >> m;
+	parameters.setCertificateType(m);
 	return stream;
 }

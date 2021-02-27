@@ -16,8 +16,9 @@ class GenerationParameters
 	QString donePlace_;
 	QDateTime creationDate_;
 	QDateTime outDate_;
+	int certificateType_;
 
-  public:
+public:
 	Q_PROPERTY(QString firstName READ firstName WRITE setFirstName)
 	Q_PROPERTY(QString lastName READ lastName WRITE setLastName)
 	Q_PROPERTY(QString birthDate READ birthDate WRITE setBirthDate)
@@ -27,6 +28,7 @@ class GenerationParameters
 	Q_PROPERTY(QString donePlace READ donePlace WRITE setDonePlace)
 	Q_PROPERTY(QDateTime creationDate READ creationDate WRITE setCreationDate)
 	Q_PROPERTY(QDateTime outDate READ outDate WRITE setOutDate)
+	Q_PROPERTY(int certificateType READ certificateType WRITE setCertificateType)
 
 	QString firstName() const;
 	QString lastName() const;
@@ -37,8 +39,9 @@ class GenerationParameters
 	QString donePlace() const;
 	QDateTime creationDate() const;
 	QDateTime outDate() const;
+	int certificateType() const;
 
-  public slots:
+public slots:
 	void setFirstName(QString firstName);
 	void setLastName(QString lastName);
 	void setBirthDate(QString birthDate);
@@ -48,6 +51,7 @@ class GenerationParameters
 	void setDonePlace(QString donePlace);
 	void setCreationDate(QDateTime creationDate);
 	void setOutDate(QDateTime outDate);
+	void setCertificateType(int certificateType);
 };
 
 QDataStream& operator<<(QDataStream& stream, GenerationParameters const& parameters);
